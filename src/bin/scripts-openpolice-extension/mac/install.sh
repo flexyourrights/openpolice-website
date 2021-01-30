@@ -51,7 +51,9 @@ perl -pi -w -e "s/DB_DATABASE=myopenpolice/DB_DATABASE=$dbname/g" txt.env
 perl -pi -w -e "s/myopenpolice.local/$dir.local/g" txt.env
 mv txt.env .env
 php artisan key:generate
-php artisan optimize:clear
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
 COMPOSER_MEMORY_LIMIT=-1 composer require laravel/ui paragonie/random_compat
 php artisan ui vue --auth
 composer require mpdf/mpdf
@@ -67,7 +69,9 @@ cp ../scripts-openpolice-extension/mac/config-app.php config/app.php
 composer update
 composer dump-autoload
 echo "0" | php artisan vendor:publish --force
-php artisan optimize:clear
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
 
 php artisan migrate --force
 php artisan db:seed --force --class=OpenPoliceSeeder
@@ -84,6 +88,8 @@ if [ "$uploadzips" == "y" ]; then
     php artisan db:seed --force --class=ZipCodeSeeder4
 fi
 
-php artisan optimize:clear
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
 composer dump-autoload
 curl http://$dir.local/css-reload
