@@ -46,20 +46,15 @@ fi
 composer create-project laravel/laravel $dir "8.5.*"
 cd $dir
 mv ./.env ./orig.env
-cp ../scripts-openpolice-extension/mac/op.env txt.env
-perl -pi -w -e "s/DB_DATABASE=myopenpolice/DB_DATABASE=$dbname/g" txt.env
-perl -pi -w -e "s/myopenpolice.local/$dir.local/g" txt.env
-mv txt.env .env
+cp ../scripts-openpolice-extension/mac/op.env ./.env
+perl -pi -w -e "s/DB_DATABASE=myopenpolice/DB_DATABASE=$dbname/g" ./.env
+perl -pi -w -e "s/myopenpolice.local/$dir.local/g" ./.env
 php artisan key:generate
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
-COMPOSER_MEMORY_LIMIT=-1 composer require laravel/ui paragonie/random_compat
+php artisan config:clear
+php artisan route:clear
+php artisan view:clear
+COMPOSER_MEMORY_LIMIT=-1 composer require laravel/ui paragonie/random_compat mpdf/mpdf flexyourrights/openpolice-extension
 php artisan ui vue --auth
-composer require mpdf/mpdf
-composer require rockhopsoft/survloop "0.3.*"
-composer require flexyourrights/openpolice "0.3.*"
-composer require flexyourrights/openpolice-extension "0.3.*"
 
 mv composer.json composer-orig.json
 cp ../scripts-openpolice-extension/mac/composer.json composer.json
@@ -67,11 +62,10 @@ mv config/app.php config/app-orig.php
 cp ../scripts-openpolice-extension/mac/config-app.php config/app.php
 
 composer update
-composer dump-autoload
+php artisan config:clear
+php artisan route:clear
+php artisan view:clear
 echo "0" | php artisan vendor:publish --force
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
 
 php artisan migrate --force
 php artisan db:seed --force --class=OpenPoliceSeeder
@@ -87,9 +81,9 @@ if [ "$uploadzips" == "y" ]; then
     php artisan db:seed --force --class=ZipCodeSeeder3
     php artisan db:seed --force --class=ZipCodeSeeder4
 fi
+perl -pi -w -e "s/DB_HOST=127.0.0.1/DB_HOST=localhost/g" ./.env
 
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
-composer dump-autoload
-curl http://$dir.local/css-reload
+php artisan config:clear
+php artisan route:clear
+php artisan view:clear
+#curl http://$dir.local/css-reload

@@ -47,9 +47,9 @@ perl -pi -w -e "s/DB_DATABASE=myopenpolice/DB_DATABASE=$dbname/g" txt.env
 perl -pi -w -e "s/myopenpolice.local/$dir.local/g" txt.env
 mv txt.env .env
 php artisan key:generate
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
+php artisan config:clear
+php artisan route:clear
+php artisan view:clear
 COMPOSER_MEMORY_LIMIT=-1 composer require laravel/ui paragonie/random_compat
 php artisan ui vue --auth
 composer require mpdf/mpdf
@@ -64,9 +64,9 @@ cp ../scripts-openpoliceorg/mac/config-app.php config/app.php
 composer update
 composer dump-autoload
 echo "0" | php artisan vendor:publish --force
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
+php artisan config:clear
+php artisan route:clear
+php artisan view:clear
 
 #DBKEY='\\Illuminate\\Support\\Facades\\DB'
 #perl -pi -w -e "s/$DBKEY::statement('SET SESSION sql_require_primary_key=0'); / /g" database/migrations/*.php
@@ -80,9 +80,10 @@ php artisan db:seed --force --class=ZipCodeSeeder
 php artisan db:seed --force --class=ZipCodeSeeder2
 php artisan db:seed --force --class=ZipCodeSeeder3
 php artisan db:seed --force --class=ZipCodeSeeder4
+perl -pi -w -e "s/DB_HOST=127.0.0.1/DB_HOST=localhost/g" ./.env
 
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
+php artisan config:clear
+php artisan route:clear
+php artisan view:clear
 composer dump-autoload
-curl http://$dir.local/css-reload
+#curl http://$dir.local/css-reload
