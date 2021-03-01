@@ -50,8 +50,6 @@ php artisan key:generate
 php artisan config:clear
 php artisan route:clear
 php artisan view:clear
-COMPOSER_MEMORY_LIMIT=-1 composer require laravel/ui paragonie/random_compat
-php artisan ui vue --auth
 composer require mpdf/mpdf
 composer require rockhopsoft/survloop "0.3.*"
 composer require flexyourrights/openpolice "0.3.*"

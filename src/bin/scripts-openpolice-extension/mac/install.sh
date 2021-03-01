@@ -53,8 +53,7 @@ php artisan key:generate
 php artisan config:clear
 php artisan route:clear
 php artisan view:clear
-COMPOSER_MEMORY_LIMIT=-1 composer require laravel/ui paragonie/random_compat mpdf/mpdf flexyourrights/openpolice-extension
-php artisan ui vue --auth
+COMPOSER_MEMORY_LIMIT=-1 composer require mpdf/mpdf flexyourrights/openpolice-extension
 
 mv composer.json composer-orig.json
 cp ../scripts-openpolice-extension/mac/composer.json composer.json
